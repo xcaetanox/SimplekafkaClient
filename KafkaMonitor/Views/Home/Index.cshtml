@@ -1,0 +1,40 @@
+﻿<h1>Enviar Mensagem Kafka</h1>
+
+<form method="post" action="/Home/SendMessage">
+    <div class="form-group">
+        <label for="message">Mensagem:</label>
+        <input type="text" id="message" name="message" class="form-control" required />
+    </div>
+    <button type="submit" class="btn btn-primary">Enviar Mensagem</button>
+</form>
+
+<hr />
+
+<h1>Consumir Mensagem Kafka</h1>
+
+<div>
+    <button class="btn btn-primary" onclick="consumeMessages()">Consumir Mensagens</button>
+    <input type="text" id="messages" class="form-control" readonly />
+</div>
+
+@section Scripts {
+    <script>
+        function consumeMessages() {
+            fetch("/Home/ConsumeMessage")
+                .then(response => response.json())
+                .then(data => {
+                    // Obter o campo de texto
+                    var messageField = document.getElementById("messages");
+
+                    // Limpar conteúdo atual
+                    messageField.value = "";
+
+                    console.log(message);
+                    // Adicionar cada mensagem ao campo de texto
+                    data.messages.forEach(message => {
+                        messageField.value += message + "\n";
+                    });
+                });
+        }
+    </script>
+}
